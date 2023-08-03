@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 import { useState, useEffect } from 'react';
 
 const socket = io('http://localhost:4000');
-console.log(socket);
 
 function App() {
 
@@ -38,19 +37,29 @@ function App() {
   
   return (
     <div className="App">
-      <form onSubmit={handlesumit}>
-        <input placeholder="Mensaje" onChange={e => setMessage(e.target.value)} value={message}></input>
-        <button type='submit'>Enviar</button>
-      </form>
+      <section className="container">
+        <div className='container-messages'>
+          {
+            messages.map((message, index) => (
+              <div key={index}>
+                <p>{message.from}: {message.body}</p>
+              </div>
+            ))
+          }
+        </div>
 
-      {
-        messages.map((message, index) => (
-          <div className='container-messages' key={index}>
-            <p>{message.from}: {message.body}</p>
-          </div>
-        ))
-      }
-
+        <form onSubmit={handlesumit}>
+          <input placeholder="Mensaje" onChange={e => setMessage(e.target.value)} value={message}></input>
+          <button type='submit'>Enviar</button>
+        </form>
+      </section>
+      <aside className='users'>
+        {
+          messages.map((message, index) => (
+            <p key={index}>{message.from}</p>
+          ))
+        }
+      </aside>
     </div>
   );
 }
